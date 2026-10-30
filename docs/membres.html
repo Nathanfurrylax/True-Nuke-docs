@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide des membres · Documentation du bot</title>
+<meta name="description" content="Ce que le bot fait pour les membres du serveur.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+<a class="brand" href="index.html"><span class="neko"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 28 14 8 28 17M52 28 50 8 36 17"/><path d="M12 28C12 48 22 56 32 56 42 56 52 48 52 28 52 20 44 15 32 15 20 15 12 20 12 28Z" fill="var(--surface)"/><ellipse cx="25" cy="33" rx="2.6" ry="4" fill="currentColor"/><ellipse cx="39" cy="33" rx="2.6" ry="4" fill="currentColor"/><path d="M30 40h4l-2 3z" fill="var(--accent)" stroke="var(--accent)"/><path d="M32 43Q29 47 26 45M32 43Q35 47 38 45M8 38l10 2M8 45l10-1M56 38l-10 2M56 45l-10-1"/></svg></span><span>Documentation du bot</span></a>
+<nav aria-label="Navigation"><a href="index.html">Accueil</a><a href="membres.html" aria-current="page">Membres</a><a href="admins.html">Admins</a></nav>
+</header>
+<main class="doc">
+
+<h1>Guide des membres</h1>
+<p class="lead">Ce que le bot fait sur le serveur, ce qu’il peut vous envoyer et que faire en cas de question.</p>
+<div class="callout"><p><strong>En bref.</strong> Vous n’avez aucune commande à utiliser : elles sont réservées à l’équipe du serveur. Pour vous, l’essentiel est de <strong>valider le règlement</strong> après votre arrivée.</p></div>
+
+<div class="toc"><strong>Sommaire</strong><ol>
+<li><a href="#reglement">Valider le règlement</a></li>
+<li><a href="#messages">Les messages que vous pouvez recevoir</a></li>
+<li><a href="#vie-privee">Ce que le bot voit</a></li>
+<li><a href="#faq">Questions fréquentes</a></li>
+</ol></div>
+
+<h2 id="reglement">Valider le règlement</h2>
+<p>À votre arrivée, vous recevez un rôle qui signifie « règlement non lu ». Lisez le règlement dans le salon prévu et validez-le comme l’explique le serveur. Une fois fait, le rôle disparaît et le bot ne s’occupe plus de vous.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Quand</th><th>Ce qui se passe</th></tr></thead>
+<tbody>
+<tr><td>Dès votre arrivée</td><td>Vous avez un délai pour lire et valider le règlement.</td></tr>
+<tr><td>Après le premier délai (12 h par défaut)</td><td>Vous recevez un message privé de rappel.</td></tr>
+<tr><td>Après le second délai (24 h par défaut)</td><td>Si le règlement n’est toujours pas validé, vous êtes banni automatiquement.</td></tr>
+</tbody></table></div>
+<p>Ces délais sont choisis par l’équipe du serveur et peuvent différer. Le bot vérifie à intervalles réguliers : l’avertissement et le bannissement peuvent donc arriver avec un petit retard. Le plus simple est de valider le règlement dès votre arrivée.</p>
+
+<h2 id="messages">Les messages que vous pouvez recevoir</h2>
+<p>Le bot vous écrit en <strong>message privé</strong>. Le texte exact est choisi par l’équipe du serveur.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Message</th><th>Pourquoi</th><th>Que faire</th></tr></thead>
+<tbody>
+<tr><td>Rappel du règlement</td><td>Vous n’avez pas encore validé le règlement.</td><td>Validez-le sans attendre.</td></tr>
+<tr><td>Avertissement d’un modérateur</td><td>Un membre de l’équipe vous a averti (il indique la raison).</td><td>Relisez le règlement. En cas de doute, contactez l’équipe.</td></tr>
+<tr><td>Expulsion</td><td>Un modérateur vous a retiré du serveur.</td><td>Vous pouvez revenir avec une invitation, si l’équipe l’accepte.</td></tr>
+<tr><td>Bannissement</td><td>Un modérateur ou le contrôle du règlement vous a banni.</td><td>Seule l’équipe peut lever un bannissement : contactez-la.</td></tr>
+<tr><td>Éjection générale</td><td>Opération exceptionnelle du propriétaire qui retire tous les membres.</td><td>Reprenez une invitation auprès de l’équipe.</td></tr>
+</tbody></table></div>
+
+<h2 id="vie-privee">Ce que le bot voit</h2>
+<ul>
+<li>Il voit votre <strong>pseudo, votre avatar, vos rôles, votre date d’arrivée</strong> et l’ancienneté de votre compte.</li>
+<li>Il <strong>ne lit pas vos messages</strong> et n’a pas accès à vos conversations privées avec d’autres personnes.</li>
+<li>Il ne connaît <strong>pas votre adresse IP</strong>.</li>
+<li>Il garde la trace des avertissements donnés par les modérateurs (raison, date, modérateur) et de la liste des membres en attente de validation du règlement.</li>
+<li>Les modérateurs peuvent lancer une analyse qui estime si un compte est un second compte, à partir d’informations publiques. C’est une estimation, jamais une preuve, et elle ne sanctionne personne toute seule.</li>
+</ul>
+<p>Pour toute question sur vos données, adressez-vous à l’équipe du serveur.</p>
+
+<h2 id="faq">Questions fréquentes</h2>
+<details><summary>Je n’ai reçu aucun message privé du bot</summary>
+<p>Vos messages privés sont peut-être fermés. Dans Discord : paramètres du serveur → « Messages privés » (autoriser les membres du serveur). Même sans message reçu, les règles s’appliquent quand même.</p></details>
+<details><summary>Je n’arrive pas à valider le règlement</summary>
+<p>Suivez la procédure indiquée dans le salon du règlement. Si ça ne fonctionne pas, prévenez l’équipe rapidement, avant la fin du délai.</p></details>
+<details><summary>J’ai été banni alors que j’avais tout validé</summary>
+<p>Contactez l’équipe du serveur par un autre moyen que le serveur lui-même, si elle en propose un. Le bot ne peut pas annuler un bannissement : seule l’équipe le peut.</p></details>
+<details><summary>Puis-je utiliser des commandes du bot ?</summary>
+<p>Non. Les commandes sont réservées aux modérateurs, aux administrateurs et au propriétaire.</p></details>
+<details><summary>Le bot est hors ligne, que se passe-t-il ?</summary>
+<p>Pendant ce temps, aucun rappel ni bannissement automatique n’est envoyé. Le contrôle reprend dès que le bot revient.</p></details>
+
+</main>
+<footer>Documentation du bot Discord · mise à jour le 30 octobre 2026</footer>
+</body>
+</html>

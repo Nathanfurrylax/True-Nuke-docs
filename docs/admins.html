@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide des admins · Documentation du bot</title>
+<meta name="description" content="Installer, utiliser et régler le bot et son panel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&amp;display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+<a class="brand" href="index.html"><span class="neko"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 28 14 8 28 17M52 28 50 8 36 17"/><path d="M12 28C12 48 22 56 32 56 42 56 52 48 52 28 52 20 44 15 32 15 20 15 12 20 12 28Z" fill="var(--surface)"/><ellipse cx="25" cy="33" rx="2.6" ry="4" fill="currentColor"/><ellipse cx="39" cy="33" rx="2.6" ry="4" fill="currentColor"/><path d="M30 40h4l-2 3z" fill="var(--accent)" stroke="var(--accent)"/><path d="M32 43Q29 47 26 45M32 43Q35 47 38 45M8 38l10 2M8 45l10-1M56 38l-10 2M56 45l-10-1"/></svg></span><span>Documentation du bot</span></a>
+<nav aria-label="Navigation"><a href="index.html">Accueil</a><a href="membres.html">Membres</a><a href="admins.html" aria-current="page">Admins</a></nav>
+</header>
+<main class="doc">
+
+<h1>Guide des admins</h1>
+<p class="lead">Utiliser les commandes, régler le bot depuis le panel et résoudre les problèmes courants.</p>
+
+<div class="toc"><strong>Sommaire</strong><ol>
+<li><a href="#demarrage">Premiers pas</a></li>
+<li><a href="#panel">Le panel</a></li>
+<li><a href="#commandes">Les commandes</a></li>
+<li><a href="#reglement">Le contrôle du règlement</a></li>
+<li><a href="#textes">Modifier les textes</a></li>
+<li><a href="#depannage">Dépannage</a></li>
+<li><a href="#securite">Sécurité</a></li>
+<li><a href="#maintenance">Maintenance</a></li>
+</ol></div>
+
+<h2 id="demarrage">Premiers pas</h2>
+<h3>1. Le bot sur Discord</h3>
+<ul>
+<li>Dans le portail développeur Discord, onglet <strong>Bot</strong>, activez <strong>Server Members Intent</strong>. Sans lui, le contrôle du règlement ne voit pas les membres.</li>
+<li>Invitez le bot avec les portées <code>bot</code> et <code>applications.commands</code>, et les permissions <strong>Expulser des membres</strong>, <strong>Bannir des membres</strong>, <strong>Voir les salons</strong> et <strong>Envoyer des messages</strong>.</li>
+<li>Placez le rôle du bot <strong>au-dessus</strong> des rôles qu’il doit pouvoir sanctionner. Discord interdit à un bot d’agir sur un membre dont le rôle est plus haut que le sien.</li>
+</ul>
+<h3>2. Le fichier <code>.env</code></h3>
+<div class="tablewrap"><table>
+<thead><tr><th>Variable</th><th>Rôle</th></tr></thead>
+<tbody>
+<tr><td><code>TOKEN</code></td><td>Le jeton du bot (portail développeur). À garder secret.</td></tr>
+<tr><td><code>PANEL_PASSWORD</code></td><td>Le mot de passe du panel. Sans lui, le panel est désactivé.</td></tr>
+<tr><td><code>PORT</code></td><td>Le port du panel, en général fourni par l’hébergeur.</td></tr>
+<tr><td><code>DB_PATH</code></td><td>Optionnel : emplacement du fichier <code>database.db</code>, à placer sur un stockage qui ne s’efface pas.</td></tr>
+</tbody></table></div>
+<h3>3. Récupérer l’ID du rôle « règlement non lu »</h3>
+<p>Dans Discord : Paramètres → Avancés → activez le <strong>Mode développeur</strong>. Faites ensuite un clic droit sur le rôle (Paramètres du serveur → Rôles) puis « Copier l’identifiant ». Collez-le dans l’onglet <strong>Automatismes</strong> du panel.</p>
+
+<h2 id="panel">Le panel</h2>
+<p>Ouvrez l’adresse du panel et saisissez le mot de passe. Après 5 essais ratés, la connexion est bloquée 15 minutes. La session dure 7 jours, et il faut se reconnecter si le bot redémarre.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Onglet</th><th>Contenu</th></tr></thead>
+<tbody>
+<tr><td>Vue d’ensemble</td><td>État du bot, ping, nombre de serveurs et d’utilisateurs, durée de fonctionnement, et liste des membres actuellement avertis par le contrôle du règlement. Rafraîchi toutes les 15 secondes.</td></tr>
+<tr><td>Textes &amp; statut</td><td>Statut du bot et tous les messages : messages privés, réponses de <code>/kick</code>, <code>/warn</code>, <code>/ban</code>, <code>/detect</code>, <code>/espace</code> (avec ses phrases), <code>/say</code> et <code>/botinfo</code>.</td></tr>
+<tr><td>Automatismes</td><td>Délais d’avertissement et de bannissement, intervalle de vérification, ID du rôle « règlement non lu ».</td></tr>
+</tbody></table></div>
+<p>Quand vous modifiez un champ, une barre <strong>« Modifications non enregistrées »</strong> apparaît en bas. Cliquez sur <strong>Enregistrer</strong> pour appliquer, ou sur <strong>Annuler</strong> pour tout remettre. Les changements sont pris en compte <strong>immédiatement</strong>, sans redémarrer le bot.</p>
+<div class="callout"><p>La liste « membres avertis » de la vue d’ensemble ne montre que les avertissements du <strong>contrôle automatique du règlement</strong>. Les avertissements donnés avec <code>/warn</code> sont enregistrés à part et n’y apparaissent pas.</p></div>
+
+<h2 id="commandes">Les commandes</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Commande</th><th>Qui peut l’utiliser</th><th>Ce qu’elle fait</th></tr></thead>
+<tbody>
+<tr><td><code>/warn membre raison</code></td><td>Permission « Exclure temporairement des membres »</td><td>Envoie un avertissement en message privé, l’enregistre et affiche le total du membre. La raison est obligatoire.</td></tr>
+<tr><td><code>/kick membre [raison]</code></td><td>Permission « Expulser des membres »</td><td>Envoie un message privé, puis expulse.</td></tr>
+<tr><td><code>/ban membre [raison]</code></td><td>Permission « Bannir des membres »</td><td>Envoie un message privé, puis bannit. Refuse de se bannir soi-même, le bot, le propriétaire, ou un membre de rang égal ou supérieur.</td></tr>
+<tr><td><code>/detect [membre]</code></td><td>Bannir, Expulser et Exclure temporairement</td><td>Estime les seconds comptes probables à partir d’informations publiques. Seul, il liste les profils les plus suspects. Avec un membre, il détaille ses liens. Ce n’est jamais une preuve : ne sanctionnez pas automatiquement.</td></tr>
+<tr><td><code>/say message [salon]</code></td><td>Administrateur</td><td>Envoie un message au nom du bot. Écrivez <code>\n</code> pour un retour à la ligne. Les mentions sont désactivées.</td></tr>
+<tr><td><code>/espace confirmer</code></td><td>Propriétaire du serveur uniquement</td><td>Expulse tous les membres (hors bots et propriétaire) après plusieurs clics de confirmation. Opération destructrice, à réserver aux cas extrêmes.</td></tr>
+<tr><td><code>/botinfo</code></td><td>Créateur du bot uniquement</td><td>Affiche le nom, le nombre de serveurs et de membres, le ping et la durée de fonctionnement.</td></tr>
+</tbody></table></div>
+<p>Pour changer qui voit quelle commande, utilisez Paramètres du serveur → Intégrations → le bot. Les commandes se resynchronisent à chaque démarrage du bot.</p>
+
+<h2 id="reglement">Le contrôle du règlement</h2>
+<p>Le bot parcourt les membres qui ont le rôle « règlement non lu » (hors bots) :</p>
+<ol>
+<li>Dès que le membre est là depuis le <strong>délai d’avertissement</strong>, il reçoit un message privé de rappel et il est noté comme averti.</li>
+<li>Dès qu’il est là depuis le <strong>délai de bannissement</strong> <em>et</em> qu’il a déjà été averti, il reçoit un message privé puis il est banni.</li>
+<li>Si le membre perd le rôle, ou quitte le serveur, il sort de la liste.</li>
+</ol>
+<div class="callout warn"><p><strong>L’intervalle compte.</strong> Le contrôle ne tourne que toutes les X minutes (1440 min = 1 fois par jour par défaut). Un membre est banni au contrôle <em>suivant</em> son avertissement. Avec un intervalle d’un jour, le bannissement peut arriver bien après le délai prévu. Pour des délais précis, mettez par exemple 60 minutes.</p></div>
+<p>Réglages possibles : avertissement de 1 à 8760 h, bannissement de 1 à 8760 h (toujours supérieur à l’avertissement), intervalle de 1 à 10080 min. Si l’ID du rôle est vide, le contrôle est désactivé.</p>
+
+<h2 id="textes">Modifier les textes</h2>
+<ul>
+<li>Un retour à la ligne dans un champ du panel devient un retour à la ligne dans Discord.</li>
+<li>Le markdown de Discord fonctionne : <code>**gras**</code>, <code>*italique*</code>, émojis, liens.</li>
+<li>Les <strong>variables</strong> entre accolades sont remplacées par le bot. Cliquez sur une pastille sous le champ pour l’insérer. Une variable qui n’est pas prévue pour un champ reste affichée telle quelle.</li>
+</ul>
+<div class="tablewrap"><table>
+<thead><tr><th>Champ</th><th>Variables</th></tr></thead>
+<tbody>
+<tr><td><code>/kick</code> : réponse de succès</td><td><code>{user}</code></td></tr>
+<tr><td><code>/ban</code> : réponse de succès</td><td><code>{user}</code> <code>{reason}</code></td></tr>
+<tr><td><code>/warn</code> : message privé</td><td><code>{server}</code> <code>{reason}</code> <code>{count}</code> <code>{user}</code></td></tr>
+<tr><td><code>/warn</code> : réponse de succès</td><td><code>{user}</code> <code>{reason}</code> <code>{count}</code></td></tr>
+<tr><td><code>/espace</code> : bouton de confirmation</td><td><code>{step}</code> <code>{total}</code></td></tr>
+<tr><td><code>/espace</code> : résultat</td><td><code>{kicked}</code></td></tr>
+<tr><td><code>/espace</code> : ajout si échecs</td><td><code>{failed}</code></td></tr>
+<tr><td><code>/say</code> : réponse de succès</td><td><code>{channel}</code></td></tr>
+<tr><td><code>/botinfo</code> : contenu</td><td><code>{bot_tag}</code> <code>{guilds}</code> <code>{members}</code> <code>{ping}</code> <code>{hours}</code> <code>{minutes}</code></td></tr>
+</tbody></table></div>
+<p><strong>Limites :</strong> statut du bot 128 caractères, boutons 80, avertissement de <code>/detect</code> 500, tous les autres textes 2000 (la limite d’un message Discord). Les phrases de <code>/espace</code> : de 1 à 50. La phrase n°1 s’affiche à la commande, la n°2 après le premier clic, etc., et la dernière se répète s’il y en a moins que de clics.</p>
+
+<h2 id="depannage">Dépannage</h2>
+<details><summary>Le bot ne démarre pas : « Cannot find module 'better-sqlite3' »</summary>
+<p>Avec Node 24, il faut <code>better-sqlite3</code> en version 12 ou plus. Vérifiez <code>package.json</code>, supprimez <code>node_modules</code> puis relancez l’installation des paquets.</p></details>
+<details><summary>Le panel ne s’ouvre pas ou refuse mon mot de passe</summary>
+<p>Si <code>PANEL_PASSWORD</code> est absent du <code>.env</code>, le panel est désactivé et la console le signale. Après 5 erreurs, patientez 15 minutes. Mot de passe oublié : changez-le dans le <code>.env</code> et redémarrez.</p></details>
+<details><summary>Les commandes n’apparaissent pas</summary>
+<p>Redémarrez le bot, elles se resynchronisent au démarrage. Vérifiez que le bot a été invité avec la portée <code>applications.commands</code>.</p></details>
+<details><summary>« Impossible de kicker / bannir ce membre »</summary>
+<p>Le rôle du bot doit être plus haut que celui du membre dans Paramètres du serveur → Rôles. Le propriétaire du serveur ne peut jamais être sanctionné.</p></details>
+<details><summary>Aucun avertissement ni bannissement automatique</summary>
+<p>Vérifiez dans l’ordre : l’ID du rôle est renseigné et correct, Server Members Intent est activé, l’intervalle de vérification n’est pas trop long, et le membre a bien le rôle « règlement non lu ». Rappel : le bannissement exige un avertissement préalable.</p></details>
+<details><summary>Le panel refuse d’enregistrer</summary>
+<p>Un message rouge dans la barre du bas explique le champ à corriger. Cas courant : le délai de bannissement n’est pas supérieur au délai d’avertissement, ou un champ est vide.</p></details>
+<details><summary>La configuration revient à zéro après une mise à jour</summary>
+<p>Le fichier <code>database.db</code> a été effacé. Placez-le sur un stockage persistant (variable <code>DB_PATH</code>) et ne le supprimez pas lors des mises à jour.</p></details>
+<details><summary>Les messages privés ne partent pas</summary>
+<p>Le membre a fermé ses messages privés. Le bot l’ignore et poursuit l’action (sanction ou enregistrement) ; <code>/warn</code> et <code>/detect</code> le signalent dans leur réponse.</p></details>
+
+<h2 id="securite">Sécurité</h2>
+<ul>
+<li>Choisissez un <strong>mot de passe long et unique</strong> pour le panel et ne le partagez qu’avec les personnes de confiance.</li>
+<li>Ne partagez jamais le <strong>TOKEN</strong> du bot, ni dans un message, ni dans une capture d’écran. En cas de fuite, régénérez-le immédiatement dans le portail développeur.</li>
+<li>Ne publiez ni le <code>.env</code> ni <code>database.db</code> dans un dépôt public.</li>
+<li>Utilisez le panel en <strong>HTTPS</strong>, car le mot de passe y transite.</li>
+<li>Déconnectez-vous depuis un appareil partagé.</li>
+</ul>
+
+<h2 id="maintenance">Maintenance</h2>
+<ul>
+<li><strong>Sauvegarde :</strong> copiez régulièrement <code>database.db</code> (bot arrêté de préférence). Elle contient toute la configuration, les avertissements <code>/warn</code> et la liste des membres avertis.</li>
+<li><strong>Mise à jour :</strong> remplacez les fichiers du bot (sans toucher à <code>.env</code> ni à <code>database.db</code>) puis redémarrez. Les nouvelles tables se créent seules, et vos réglages sont conservés.</li>
+<li><strong>Journaux :</strong> la console du bot indique les avertissements, bannissements automatiques et erreurs.</li>
+</ul>
+
+</main>
+<footer>Documentation du bot Discord · mise à jour le 30 octobre 2026</footer>
+</body>
+</html>
